@@ -1,0 +1,1 @@
+This is where all your Script Results will be ending up after they have ran. Most scripts have their own dedicated folders for results and the names that go with them.
