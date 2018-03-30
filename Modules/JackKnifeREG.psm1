@@ -1,4 +1,4 @@
-﻿$title = "JackKnife Registry Selector"
+$title = "JackKnife Registry Selector"
 Write-Host $title
 Write-Host "0:HKLM:\Software\Microsoft\Windows\CurrentVersion\Run"
 Write-Host "1:HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce"
@@ -25,7 +25,7 @@ Write-Host "21:HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\BootExecute
 Write-Host "22:Run All"
 $CurrentPath=".\JackKnife Project"
 $result = Read-Host "Make a Selection"
-$Path = "C:\Users\Skyler Cady\Desktop\"
+$Path = "C:\Users\$env:Username\Desktop\JackKnife\Results\RegistryResults"
 $file= Read-Host "Give a filename"
 switch ($result){
 0 { Get-ItemProperty  HKLM:\Software\Microsoft\Windows\CurrentVersion\Run  -ErrorAction SilentlyContinue | Export-Csv -Path $Path\$file.csv}
@@ -83,8 +83,9 @@ Y { $Path2= Read-Host "What's the path of your importing file?"
 	Import-Csv -Path $Path2
 $FILEA= Read-Host "Give the full path of the newly created file"
 	Import-Csv -Path $FileA
-	cd ..
-	(Get-FileHash -Path ".\$file.csv").hash -ne (Get-FileHash -Path "$Path2").hash >> $Path\HashResults.txt}
+	if ((Get-FileHash -Path "$FILEA").hash -ne (Get-FileHash -Path "$Path2").hash)
+	{echo "True" | Tee-Object -file $Path\HashResults.txt}
+	if ((Get-FileHash -Path "$FILEA").hash -eq (Get-FileHash -Path "$Path2").hash){echo "False" | Tee-Object -file $Path\HashResults.txt}}
 N { Write-Host "Ok that's fine"}
 	}
 	
