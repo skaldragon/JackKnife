@@ -9,7 +9,7 @@ Get-Item WSMan:\localhost\Client\TrustedHosts | Export-Csv -Path $Path\TrustedHo
 
 Start-Sleep -s 5
 }
-N {$diable=Read-Host "Do you want to disable winrm and remove yourself as a trusted host? Y for yes N for no"}
+N {$disable=Read-Host "Do you want to disable winrm and remove yourself as a trusted host? Y for yes N for no"}
 }
 $answer2=Read-Host "Do you want to add yourself as a TrustedHost? Y for yes N for no"
 switch($answer2){
@@ -17,7 +17,7 @@ Y { Set-Item WSMan:\localhost\Client\TrustedHosts -Value $env:ComputerName
 	Get-Item WSMan:\localhost\Client\TrustedHosts  | Export-Csv -Path $Path\TrustedHostChanges.csv}
 N {  }
 }
-switch($diable){
+switch($disable){
 Y { $newvalue = ((Get-ChildItem WSMan:\localhost\Client\TrustedHosts).Value).Replace($env:ComputerName," ")
 Set-Item WSMan:\localhost\Client\TrustedHosts $newvalue
 net stop winrm}
