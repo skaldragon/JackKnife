@@ -8,11 +8,11 @@ $result = Read-Host "Do you want to sort the results uniquely by the Alternate D
 
 
 switch ($result){
-	Y {Get-ChildItem -Path $path -Recurse *.* |Out-Null| % { Get-Item -Path $_.FullName -Stream * } | Select Stream | Export-Csv -Path $filepath\$file.csv
-		Get-Content $filepath\$file.csv | Sort | Get-Unique | Export-Csv -Path $filepath\$($file)2.csv
+	Y {Get-ChildItem -Path $path -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Select Stream | Export-Csv -Path $filepath\$file.csv 
+		Get-Content $filepath\$file.csv | Sort | Get-Unique | Export-Csv -Path $filepath\$($file)2.csv 
 		Copy-Item $filepath\$($file)2.csv $filepath\$file.csv ;
 		Remove-Item $filepath\$($file)2.csv ;}
-	N {Get-ChildItem -Path $path -Recurse *.* |Out-Null| % { Get-Item -Path $_.FullName -Stream * -ErrorAction SilentlyContinue } | Export-Csv -Path $filepath\$file.csv}
+	N {Get-ChildItem -Path $path -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Export-Csv -Path $filepath\$file.csv }
 }
 
 $title2 = "JackKnife's `$DATA Remover"
@@ -26,7 +26,7 @@ $options2 = [System.Management.Automation.Host.ChoiceDescription[]]($yes2, $no2)
 $result2 = $Host.UI.PromptForChoice($title2, $message2, $options2, 0)
 
 switch ($result2){
-	0 {Get-ChildItem -Path $path -Recurse *.* |Out-Null| % { Get-Item -Path $_.FullName -Stream * } | Where-Object { $_.Stream -ne ':$DATA'} | Export-Csv -Path $filepath\$file.csv }
+	0 {Get-ChildItem -Path $path -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Where-Object { $_.Stream -ne ':$DATA'} | Export-Csv -Path $filepath\$file.csv }
 	1 {""}
 }
 # Creates a file and then sorts out the data to be parsed later within the sequence of processing the information.
@@ -41,7 +41,7 @@ $options3 = [System.Management.Automation.Host.ChoiceDescription[]]($yes3, $no3)
 $result3 = $Host.UI.PromptForChoice($title3, $message3, $options3, 0)
 #
 switch ($result3){
-	0 {$x = Get-ChildItem -Path $path -Recurse *.* |Out-Null| % { Get-Item -Path $_.FullName -Stream * -ErrorAction Ignore } | Where-Object { $_.Stream -ne ':$DATA'} }
+	0 {$x = Get-ChildItem -Path $path -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Where-Object { $_.Stream -ne ':$DATA'} }
 	1 {""}
 }
 #
