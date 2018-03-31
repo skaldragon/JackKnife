@@ -9,7 +9,7 @@ Get-Item WSMan:\localhost\Client\TrustedHosts | Export-Csv -Path $Path\TrustedHo
 
 Start-Sleep -s 5
 }
-N {$diable=Read-Host "Do you want to disable winrm and remover yourself as a trusted host? Y for yes N for no"}
+N {$diable=Read-Host "Do you want to disable winrm and remove yourself as a trusted host? Y for yes N for no"}
 }
 $answer2=Read-Host "Do you want to add yourself as a TrustedHost? Y for yes N for no"
 switch($answer2){
