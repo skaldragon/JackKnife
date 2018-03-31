@@ -1,0 +1,1 @@
+This is where all your ADS Script Results will end up, make sure you don't accidentally overwrite the files with the options you choose. You may not get the results you're looking for.
