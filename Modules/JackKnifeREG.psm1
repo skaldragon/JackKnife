@@ -23,7 +23,6 @@ Write-Host "19:HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SharedTas
 Write-Host "20:HKLM\Software\Microsoft\Windows NT\CurrentVersion\Windows\\AppInit_DLLs"
 Write-Host "21:HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\BootExecute"
 Write-Host "22:Run All"
-$CurrentPath=".\JackKnife"
 $result = Read-Host "Make a Selection"
 $Path = "C:\Users\$env:Username\Desktop\JackKnife\Results\RegistryResults"
 $file= Read-Host "Give a filename"
