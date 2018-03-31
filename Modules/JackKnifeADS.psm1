@@ -2,22 +2,17 @@
 $title = "JackKnife's Alternate Data Stream Sorter"
 $path = Read-Host 'What is the path you want search ex: U:\?'
 $file = Read-Host 'What file name do you want to give the output to?'
-$filepath = Read-Host 'What file path do you want to place this file?'
-$message = "Do you want to sort the results uniquely by the Alternate Data Stream?"
+$filepath = "C:\Users\$env:Username\Desktop\JackKnife\Results\ADSResults"
+$result = Read-Host "Do you want to sort the results uniquely by the Alternate Data Stream? Y for yes N for no"
 
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes", "Sorts uniquely."
-$no =  New-Object System.Management.Automation.Host.ChoiceDescription "&No", "Does not sort."
 
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
-
-$result = $Host.UI.PromptForChoice($title, $message, $options, 0)
 
 switch ($result){
-	0 {Get-ChildItem -Path $path -Recurse *.* | % { Get-Item -Path $_.FullName -Stream * } | Select Stream | Sort > $filepath\$file.txt
-		Get-Content $filepath\$file.txt | Sort | Get-Unique > $filepath\$($file)2.txt
-		Copy-Item $filepath\$($file)2.txt $filepath\$file.txt ;
-		Remove-Item $filepath\$($file)2.txt ;}
-	1 {Get-ChildItem -Path $path -Recurse *.* | % { Get-Item -Path $_.FullName -Stream * } > $filepath\$file.txt}
+	Y {Get-ChildItem -Path $path -Recurse *.* |Out-Null| % { Get-Item -Path $_.FullName -Stream * } | Select Stream | Export-Csv -Path $filepath\$file.csv
+		Get-Content $filepath\$file.csv | Sort | Get-Unique | Export-Csv -Path $filepath\$($file)2.csv
+		Copy-Item $filepath\$($file)2.csv $filepath\$file.csv ;
+		Remove-Item $filepath\$($file)2.csv ;}
+	N {Get-ChildItem -Path $path -Recurse *.* |Out-Null| % { Get-Item -Path $_.FullName -Stream * -ErrorAction SilentlyContinue } | Export-Csv -Path $filepath\$file.csv}
 }
 
 $title2 = "JackKnife's `$DATA Remover"
@@ -31,12 +26,12 @@ $options2 = [System.Management.Automation.Host.ChoiceDescription[]]($yes2, $no2)
 $result2 = $Host.UI.PromptForChoice($title2, $message2, $options2, 0)
 
 switch ($result2){
-	0 {Get-ChildItem -Path $path -Recurse *.* | % { Get-Item -Path $_.FullName -Stream * } | Where-Object { $_.Stream -ne ':$DATA'} > $filepath\$file.txt }
+	0 {Get-ChildItem -Path $path -Recurse *.* |Out-Null| % { Get-Item -Path $_.FullName -Stream * } | Where-Object { $_.Stream -ne ':$DATA'} | Export-Csv -Path $filepath\$file.csv }
 	1 {""}
 }
 # Creates a file and then sorts out the data to be parsed later within the sequence of processing the information.
 $title3 = "JackKnife's ADS Data Revealer ALL FILES"
-$message3 = "Do you want to view a stream from a file?"
+$message3 = "Do you want to view all streams from all files?"
 Write-Host "WILL TAKE ALL THE DATA FROM ALL THE FILES AND IMPORT INTO A CSV " -ForegroundColor red
 $yes3 = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes", "Reveals the ADS Data"
 $no3 =  New-Object System.Management.Automation.Host.ChoiceDescription "&No", "Does not reveal."
@@ -46,7 +41,7 @@ $options3 = [System.Management.Automation.Host.ChoiceDescription[]]($yes3, $no3)
 $result3 = $Host.UI.PromptForChoice($title3, $message3, $options3, 0)
 #
 switch ($result3){
-	0 {$x = Get-ChildItem -Path $path -Recurse *.* | % { Get-Item -Path $_.FullName -Stream *  } | Where-Object { $_.Stream -ne ':$DATA'} }
+	0 {$x = Get-ChildItem -Path $path -Recurse *.* |Out-Null| % { Get-Item -Path $_.FullName -Stream * -ErrorAction Ignore } | Where-Object { $_.Stream -ne ':$DATA'} }
 	1 {""}
 }
 #
