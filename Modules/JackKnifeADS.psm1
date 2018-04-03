@@ -1,8 +1,9 @@
+cd C:\WINDOWS\system32
 ## Lists Files within Directory and the alternate data streams associated with them
 $title = "JackKnife's Alternate Data Stream Sorter"
 $path = Read-Host 'What is the path you want search ex: U:\?'
 $file = Read-Host 'What file name do you want to give the output to?'
-$filepath = "C:\Users\$env:Username\Desktop\JackKnife\Results\ADSResults"
+$filepath = "C:\Users\$env:Username\Desktop\JackKnife\JackKnife\Results\ADSResults"
 $result = Read-Host "Do you want to sort the results uniquely by the Alternate Data Stream? Y for yes N for no"
 
 
