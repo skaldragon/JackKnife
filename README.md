@@ -33,8 +33,8 @@ Windows Remote Management(WINRM) is neccessary to run the main script and its mo
 # Step 5: Cleanup
 * Most hosts don't like it when we leave things on their computer, so after you've done all your modules you can then contain it all in one .zip file and copy it over to your computer. Here is a list of commands in order to use for cleaning up.(Note: This is within the same powershell window you invoked your command through)
 * #Command: Invoke-Command -Session $Session {rm "C:\Users\$env:Username\Desktop\JackKnife.zip"}
-* #Command: Invoke-Command -Session $Session {$dest=Read-Host "Give your host username" $file=Read-Host "Give a filename for your zip file" Compress-Archive -LiteralPath "C:\Users\$env:Username\Desktop\JackKnife" -DestinationPath "C:\Users\$dest\Desktop\$file"
-* #Command:Invoke-Command -Session $Session {rmdir "C:\Users\$env:Username\Desktop\JackKnife"}
+* #Command: Invoke-Command -Session $Session {$dest=Read-Host "Give your host username" $file=Read-Host "Give a filename for your zip file" Compress-Archive -LiteralPath "C:\Users\$env:Username\Desktop\JackKnife" -DestinationPath "C:\Users\ $dest\Desktop\ $file"
+* #Command:Invoke-Command -Session $Session {rmdir "C:\Users\ $env:Username\Desktop\JackKnife"}
 * #Command: Remove-PsSession $Session
 
 
