@@ -1,3 +1,4 @@
+cd C:\WINDOWS\system32
 $title = "JackKnife Registry Selector"
 Write-Host $title
 Write-Host "0:HKLM:\Software\Microsoft\Windows\CurrentVersion\Run"
@@ -24,7 +25,7 @@ Write-Host "20:HKLM\Software\Microsoft\Windows NT\CurrentVersion\Windows\\AppIni
 Write-Host "21:HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\BootExecute"
 Write-Host "22:Run All"
 $result = Read-Host "Make a Selection"
-$Path = "C:\Users\$env:Username\Desktop\JackKnife\Results\RegistryResults"
+$Path = "C:\Users\$env:Username\Desktop\JackKnife\JackKnife\Results\RegistryResults"
 $file= Read-Host "Give a filename"
 switch ($result){
 0 { Get-ItemProperty  HKLM:\Software\Microsoft\Windows\CurrentVersion\Run  -ErrorAction SilentlyContinue | Export-Csv -Path $Path\$file.csv}
