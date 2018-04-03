@@ -19,6 +19,7 @@ Windows Remote Management(WINRM) is neccessary to run the main script and its mo
 * PS-Session Remoting figured out and now there are commands to configure them.
 * Main script configured for remoting on hosts.
 * Requires WinRM to be running on local host and remote host to work
+* Currently working on Prefetch file reader,Logs,and SHIMCache modules.
 
 # Step 1: Configure WinRM:
 * You can configure WinRM on your host machine running the JackKnifeWINRM.ps1 script, if WINRM is already enabled on your remote hosts and you can create a PSSession for those hosts move on to step 2.
