@@ -1,6 +1,6 @@
 # JackKnife
 JackKnife is a Network Defense Tool Repository for Powershell. It is made up of one main script and multiple modules built within. JackKnife is currently in development and new material will be added when updated. Works on Powershell 3.0 and up. The idea and point of JackKnife is to have a huge repository of Network and Host analytical tools in one script and in one source of access.
-Windows Remote Management(WINRM) is neccessary to run the main script and its modules, however I am currently in the process on making the modules run as well as the main script.JackKnife is also currently in the process of finishing its WINRM Module.
+Windows Remote Management(WINRM) is neccessary to run the main script and its modules. Remoting has been fixed to a single powershell.ps1 file agent to call on and updates will be added when polished and functionality is working!
 *
 # JackKnife Version 1.0
 *	Added Alternate Data Streams Module
