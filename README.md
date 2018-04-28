@@ -38,6 +38,11 @@ Windows Remote Management(WINRM) is neccessary to run the main script and its mo
 * #Command:Invoke-Command -Session $Session {rmdir "C:\Users\ $env:Username\Desktop\JackKnife"}
 * #Command: Remove-PsSession $Session
 
+# JackKnife Version 3.0.1
+* Added Tools Repository with scripts to help and guide operations
+* Encrypter and Decrypter files added to tool set
+* Send-File was added thanks to adbertram @https://github.com/adbertram/Random-PowerShell-Work
+
 
 
 
