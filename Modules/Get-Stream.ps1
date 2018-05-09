@@ -21,7 +21,7 @@ function Get-Stream {
 	.EXAMPLE Content,AddStream,StreamName
 	 Get-Stream -FilePath "YourFilePath" -StreamName "MyStream" -Content "Hello" -AddStream
 	.EXAMPLE View
-	 Get-Stream -FilePath -StreamName "MyStream" -View
+	 Get-Stream -StreamName "StreamName" -FilePath "Filepath" -View
 	.EXAMPLE Unique
 	 Get-Stream -FilePath "YourFilePath" -Unique
 	 .INPUTS
@@ -39,24 +39,27 @@ param(
 [Parameter(Mandatory=$false,ParameterSetName="Set2")][string]$StreamName,
 [Parameter(Mandatory=$false,ParameterSetName="Set2")][switch]$Remove,
 [Parameter(Mandatory=$false,ParameterSetName="Set2")][switch]$AddStream,
-[Parameter(Mandatory=$false,ParameterSetName="Set1")][switch]$View,
+[Parameter(Mandatory=$false,ParameterSetName="Set2")][switch]$View,
 [Parameter(Mandatory=$false,ParameterSetName="Set1")][switch]$Unique
 
 ) 
-
-Get-ChildItem -Path $Filepath -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Select Filename,Stream | Sort
-
+if ($FilePath -and !$Unique -and !$Content -and !$StreamName -and !$Remove -and !$AddStream -and !$View){
+Get-ChildItem -Path $Filepath -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Select Filename,Stream
+}
 if($Remove){
 Remove-Item -Path $FilePath -Stream $StreamName
 }
 if($View){
-Get-Content -Path $Filepath -Stream $StreamName
+Get-Content -Stream $StreamName -Path $Filepath 
 }
 if($AddStream){
 Add-Content -Stream $StreamName -Value $Content -Path $Filepath
 }
 if($Unique){
-$var=(Get-ChildItem -Path $FilePath -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Where-Object { $_.Stream -ne ':$DATA'}).Stream
+$var=(Get-ChildItem -Path $FilePath -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Where-Object { $_.Stream -ne ':$DATA' -and $_.Stream -ne "Zone.Identifier"}).Stream;
+$var2=(Get-ChildItem -Path $FilePath -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Where-Object { $_.Stream -ne ':$DATA' -and $_.Stream -ne "Zone.Identifier"}).FileName;
+write-host "These are your Unique Stream names:" ; 
+write-host $var2 -ForegroundColor red ; 
 write-host $var -ForegroundColor red
 }
 }
