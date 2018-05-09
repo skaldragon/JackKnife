@@ -1,4 +1,35 @@
-﻿function Get-Stream {
+function Get-Stream {
+<#
+	.SYNOPSIS
+		This function has the capability to find,add and remove Alternate Data Streams from files on a system.
+	.PARAMETER FilePath
+		The local or UNC folder path that you'd like to view streams at. Doesn't have to end in a file format it has the ability to just search the folder in general
+	.PARAMETER $Content
+		The Data you want to add to a file or a newly created stream.
+	.PARAMETER StreamName
+		The Name of the stream you are looking to view or add depending on which parameter set you use.
+	.PARAMETER Remove
+		Switch Parameter to Remove ADS from chosen file/files.
+	.PARAMETER AddStream
+		Adds a stream to a chosen file/files.
+	.PARAMETER View
+		Views Chosen Stream's Data
+	.PARAMETER Unique
+		Switch Parameter to Unique on ADS names within files on the system
+	.EXAMPLE
+	 Get-Stream -Filepath "YourFilePath"
+	.EXAMPLE Content,AddStream,StreamName
+	 Get-Stream -FilePath "YourFilePath" -StreamName "MyStream" -Content "Hello" -AddStream
+	.EXAMPLE View
+	 Get-Stream -FilePath -StreamName "MyStream" -View
+	.EXAMPLE Unique
+	 Get-Stream -FilePath "YourFilePath" -Unique
+	 .INPUTS
+	This function does not accept pipeline input.
+	.OUTPUTS
+	None but can be piped to export files.
+		#>
+
 [CmdletBinding(DefaultParameterSetName="Set1")]
 
 
@@ -14,16 +45,18 @@ param(
 ) 
 
 Get-ChildItem -Path $Filepath -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Select Filename,Stream | Sort
+
 if($Remove){
 Remove-Item -Path $FilePath -Stream $StreamName
 }
 if($View){
-Write-Host
+Get-Content -Path $Filepath -Stream $StreamName
 }
 if($AddStream){
 Add-Content -Stream $StreamName -Value $Content -Path $Filepath
 }
 if($Unique){
-Get-ChildItem -Path $path -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Where-Object { $_.Stream -ne ':$DATA'}
+$var=(Get-ChildItem -Path $FilePath -Recurse *.* | ForEach-Object { Get-Item -Path $_.FullName | Get-Item -Stream * } | Where-Object { $_.Stream -ne ':$DATA'}).Stream
+write-host $var -ForegroundColor red
 }
 }
