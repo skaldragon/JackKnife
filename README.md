@@ -41,7 +41,9 @@ JackKnife is a Network Defense Tool Repository for Powershell. It contains multi
 * Added Tools Repository with scripts to help and guide operations
 * Encrypter and Decrypter files added to tool set
 * Send-File was added thanks to adbertram @https://github.com/adbertram/Random-PowerShell-Work
-
+# JackKnife Version 3.1.0
+* New Get-Stream File updated and renewed for ADS streams
+* New Persist-Action added for persistent information grabbing on the fly!
 
 
 
