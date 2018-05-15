@@ -11,3 +11,7 @@ Import-Module .\Send-File.ps1
 # Send-File.ps1
 * Borrowed from Adbertram for use in this project, did initially have my own copyfile script but was restrained to data sizes.
 * Please visit his page here https://github.com/adbertram/Random-PowerShell-Work
+
+# Persist-Action.ps1
+* Creates a persisting action on a local machine to gather computer data and save it on your local computer
+* Network Connections, Processes, and log grabbing are the three main persistence actions it can do right now.
