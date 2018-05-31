@@ -26,6 +26,6 @@ write-host " Able to communicate via WINRM to $item" -ForegroundColor Green
 if (!(Test-Path C:\users\$env:USERNAME\Desktop\Jackknife\Hosts\AvailableHosts.txt)){
 New-Item  C:\users\$env:USERNAME\Desktop\Jackknife\Hosts\AvailableHosts.txt -ItemType file
 }
-echo $item "`n">> C:\users\$env:USERNAME\Desktop\Jackknife\Hosts\AvailableHosts.txt -ItemType file
+echo $item "`n">> C:\users\$env:USERNAME\Desktop\Jackknife\Hosts\AvailableHosts.txt
 }
 }
