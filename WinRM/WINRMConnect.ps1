@@ -23,6 +23,12 @@ Echo $item "`n">> C:\users\$env:USERNAME\Desktop\Jackknife\Hosts\UnavailableHost
 }
 if($test -eq "Running"){
 write-host " Able to communicate via WINRM to $item" -ForegroundColor Green
+if (!(Test-Path C:\users\$env:USERNAME\Desktop\Jackknife)){
+New-Item  C:\users\$env:USERNAME\Desktop\Jackknife -ItemType directory
+}
+if (!(Test-Path C:\users\$env:USERNAME\Desktop\Jackknife\Hosts)){
+New-Item  C:\users\$env:USERNAME\Desktop\Jackknife\Hosts -ItemType directory
+}
 if (!(Test-Path C:\users\$env:USERNAME\Desktop\Jackknife\Hosts\AvailableHosts.txt)){
 New-Item  C:\users\$env:USERNAME\Desktop\Jackknife\Hosts\AvailableHosts.txt -ItemType file
 }
