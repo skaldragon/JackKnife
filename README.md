@@ -28,6 +28,7 @@ JackKnife is a Network Defense Tool Repository for Powershell. It contains multi
 * New Get-Stream File updated and renewed for ADS streams
 * New Persist-Action added for persistent information grabbing on the fly!
 * Removed prior steps for using jackknifemain.ps1 since now this will just be a tool repository with details on tools added to JackKnife.
-
+# JackKnife Version 3.2.0
+* Added Get-ProcessModuleInfo for modules associated with running services and detaile information about those modules
 
 
