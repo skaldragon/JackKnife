@@ -8,9 +8,9 @@ param(
 	.SYNOPSIS
 		This function has the capability to gather a bunch of process information off remote or local systems.
 	.PARAMETER $RunningProcesses
-		Unless you state the value of this Parameter it will become defaulf all proecess IDs of running processes you create. If you want a specific Process ID state the value of 		that Process ID. 
+		Unless you state the value of this Parameter it will become defaulf all proecess IDs of running processes you create. If you want a specific Process ID state the value of that Process ID. 
 	.PARAMETER Switch $SignedAndExecutableType
-		Uses sigcheck.exe from SysInternalsSuite to get the verified signature of the executables and the relative 32 or 64 bit type of the process. MUST have sysinternals 				sigcheck.exe installed on your local system for it to work. 
+		Uses sigcheck.exe from SysInternalsSuite to get the verified signature of the executables and the relative 32 or 64 bit type of the process. MUST have sysinternals sigcheck.exe installed on your local system for it to work. 
 	.EXAMPLE
 	 Get-ProcessExplorer -SignedAndExecutableType
 	 .INPUTS
