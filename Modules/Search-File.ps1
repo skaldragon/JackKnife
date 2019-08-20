@@ -22,22 +22,22 @@ foreach($Computer in $Hostcomputers){
 $Session=New-PSSession -ComputerName $Computer -Authentication Negotiate
 
 if($Include){
-Invoke-Command -Session $Session -ScriptBlock{echo"-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
 Invoke-Command -Session $Session-ScriptBlock{Get-ChildItem $Using:HostPath -Include "*$Using:Extention" -Recurse -Force} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
 }
 
 if($Exclude){
-Invoke-Command -Session $Session -ScriptBlock{echo"-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
 Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Exclude "*$Using:Extention" -Recurse -Force} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
 }
 
 if($SearchforRandom){
-Invoke-Command -Session $Session -ScriptBlock{echo"-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
 Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extention | Where-Object {$_.Name -match "^s[\w]{0,20}?"}} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
 }
 
 if($SearchforNormal){
-Invoke-Command -Session $Session -ScriptBlock{echo"-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Name $using:FileName}  | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 }
 
@@ -53,19 +53,19 @@ if(Test-Connection -ComputerName $Computer -Count 1){
 $Session=New-PSSession -ComputerName $Computer -Authentication Negotiate
 
 if($Include){
-Invoke-Command -Session $Session -ScriptBlock{echo"-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
 Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Include "*$Using:Extention" -Recurse -Force} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
 }
 if($Exclude){
-Invoke-Command -Session $Session -ScriptBlock{echo"-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
 Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Exclude "*$Using:Extention" -Recurse -Force} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
 }
 if($SearchforRandom){
-Invoke-Command -Session $Session -ScriptBlock{echo"-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
 Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extention | Where-Object {$_.Name -match "^s[\w]{0,20}?"}} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
 }
 if($SearchforNormal){
-Invoke-Command -Session $Session -ScriptBlock{echo"-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Name $using:FileName}  | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 }
 Remove-PSSession * -ErrorAction SilentlyContinue
