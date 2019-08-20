@@ -33,7 +33,7 @@ Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Exc
 
 if($SearchforRandom){
 Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extension | Where-Object {$_.Name -match "^s[\w]{0,20}?"}} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{$length=Read-Host "Enter in a file length";Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extension | Where-Object {$_.Name -match "^[\w]{0,20}?" -and $_.Basename.Length -le $length}} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
 }
 
 if($SearchforNormal){
@@ -62,7 +62,7 @@ Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Exc
 }
 if($SearchforRandom){
 Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extension | Where-Object {$_.Name -match "^s[\w]{0,20}?"}} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{Read-Host "Enter in a file length";Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extension | Where-Object {$_.Name -match "^[\w]{0,20}?" -and $_.Basename.Length -le $length}} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
 }
 if($SearchforNormal){
 Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
