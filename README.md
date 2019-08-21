@@ -30,5 +30,7 @@ JackKnife is a Network Defense Tool Repository for Powershell. It contains multi
 * Removed prior steps for using jackknifemain.ps1 since now this will just be a tool repository with details on tools added to JackKnife.
 # JackKnife Version 3.2.0
 * Added Get-ProcessModuleInfo for modules associated with running services and detailed information about those modules
-
+# JackKnife Version 3.3.0
+* Added Get-ComputerInformation for computer forensics searching
+* Fixed Search-File to work correctly for all hosts on a domain and local hosts!
 
