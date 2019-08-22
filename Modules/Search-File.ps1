@@ -1,5 +1,3 @@
-#The goal of this script is to be able to look for any file withing a computer system no matter the name or pattern of name it may contain.
-
 function Search-File{
 <#
 	.SYNOPSIS
