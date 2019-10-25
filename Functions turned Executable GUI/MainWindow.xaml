@@ -1,0 +1,44 @@
+﻿<Window x:Name="Get_Stream" x:Class="JackKnife.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JackKnife"
+        mc:Ignorable="d"
+        Title="ADS Stream Finder and Editor" Height="300" Width="350" WindowStartupLocation="CenterScreen">
+    <Grid RenderTransformOrigin="0.5,0.5" Margin="-196,60,-275,-75">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="44*"/>
+            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="76*"/>
+            <ColumnDefinition Width="12*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="11*"/>
+            <ColumnDefinition Width="169*"/>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="360*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform Angle="0.114"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <CheckBox x:Name="Add_Stream" Content="Add Stream" Grid.Column="5" HorizontalAlignment="Left" Height="49" Margin="0,-7,0,0" VerticalAlignment="Top" Width="86" Grid.ColumnSpan="3"/>
+        <CheckBox x:Name="Remove_Stream" Content="Remove Stream" Grid.Column="5" HorizontalAlignment="Left" Margin="0,34,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.669,-1.472" Grid.ColumnSpan="3" Width="104"/>
+        <CheckBox x:Name="View_Stream" Content="View Stream" Grid.Column="5" HorizontalAlignment="Left" Margin="0,91,0,0" VerticalAlignment="Top" Width="89" Grid.ColumnSpan="3"/>
+        <CheckBox x:Name="Unique_Stream" Content="Unique Stream" Grid.Column="5" HorizontalAlignment="Left" Margin="0,135,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="118"/>
+        <TextBox x:Name="AddStream_Text" Grid.Column="7" HorizontalAlignment="Left" Height="23" Margin="34,-7,0,0" TextWrapping="Wrap" Text="Stream Name Here" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.645,0.374"/>
+        <TextBox x:Name="RemoveStreamText" Grid.Column="7" HorizontalAlignment="Left" Height="23" Margin="34,32,0,0" TextWrapping="Wrap" Text="Stream Name Here" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="ViewStreamText" Grid.Column="7" HorizontalAlignment="Left" Height="23" Margin="34,89,0,0" TextWrapping="Wrap" Text="Stream Name Here" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="FilePathText" Grid.Column="7" HorizontalAlignment="Left" Height="23" Margin="62,-50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="212" RenderTransformOrigin="0.503,-0.785" Grid.ColumnSpan="3"/>
+        <TextBlock Grid.Column="5" HorizontalAlignment="Left" Margin="10,-44,0,0" TextWrapping="Wrap" Text="Enter Filepath:" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
+        <Button x:Name="Get_Stream_Button" Content="Run Get-Stream" Grid.Column="6" HorizontalAlignment="Left" Margin="0,167,0,0" VerticalAlignment="Top" Width="108" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="Contentbox" Grid.Column="7" HorizontalAlignment="Left" Height="23" Margin="154,-7,0,0" TextWrapping="Wrap" Text="Enter content here" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="3"/>
+        <Button x:Name="Exit_Box" Content="Exit" Grid.Column="7" HorizontalAlignment="Left" Margin="129,167,0,0" VerticalAlignment="Top" Width="107" Grid.ColumnSpan="3" IsCancel="True"/>
+
+    </Grid>
+</Window>
