@@ -51,7 +51,7 @@ function Get-ProcessExplorer {
     {
         $childProcs = $childProcessLookup[$p.ProcessId]
 
-        $data = @{
+        $data = [ordered] @{
             ProcessName = $p.ProcessName
             ProcessID   = $p.ProcessId
             CommandLine = $p.CommandLine
