@@ -1,4 +1,5 @@
-﻿$Computer=(Get-ADComputer -Filter * | Select Name).Name
+#Gathers AD Logged on users
+$Computer=(Get-ADComputer -Filter * | Select Name).Name
 Foreach($item in $Computer){
 if ( Test-Connection -Count 2 -ComputerName $item){
 $name=(Get-WmiObject -ComputerName $item win32_loggedonuser | Select antecedent) | Out-string;
