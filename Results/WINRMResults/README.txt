@@ -1,1 +1,0 @@
-This is where all your WINRM Connection Profiles and Trusted hosts files will end up. Make sure you remove yourself off the Trusted Hosts and return the Connection Profiles to their normal states.
