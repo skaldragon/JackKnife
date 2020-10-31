@@ -1,4 +1,6 @@
-﻿$computer=(Get-ADComputer -Filter {SamAccountName -ne "NULL"} | Select Name).name
+#Gets a list of available and unavailable hosts for WINRM connectivity
+
+$computer=(Get-ADComputer -Filter {SamAccountName -ne "NULL"} | Select Name).name
 if (Test-Path C:\users\$env:USERNAME\Desktop\JackKnife\JackKnife\Hosts\UnavailableHosts.txt){
 Remove-Item -Path C:\users\$env:USERNAME\Desktop\JackKnife\JackKnife\Hosts\UnavailableHosts.txt
 }
