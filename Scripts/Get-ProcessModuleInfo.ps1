@@ -1,5 +1,5 @@
-function Get-ProcessModuleInfo
-{
+function Get-ProcessModuleInfo {
+#This Functions is to get Information about the modules loaded into running processes
 param(
 [parameter(Mandatory =$true)][string]$Processname,
 [parameter(Mandatory =$true)][string]$Filepath,
