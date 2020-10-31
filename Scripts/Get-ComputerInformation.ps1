@@ -1,4 +1,5 @@
 ﻿function Get-ComputerInformation{
+ #Gathers NetworkConnections, Exes clicked on, USB information, Previously Ran Executables by users and Software on your computersystem
 param(
 [parameter()][switch]$UserAssistInfo,
 [parameter()][switch]$NetworkConnections,
