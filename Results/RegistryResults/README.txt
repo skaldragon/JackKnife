@@ -1,1 +1,0 @@
-This is where all your Registry Module Results will end up along with your HashResults.txt
