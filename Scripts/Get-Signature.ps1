@@ -1,5 +1,5 @@
 ﻿Function Get-Signature{
-
+#Gathers basic signature information for file extensions.
 param(
 [Parameter(Mandatory=$true)][string]$Path,
 [Parameter(Mandatory=$true)][string]$Extension,
