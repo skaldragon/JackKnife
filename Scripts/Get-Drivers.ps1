@@ -1,4 +1,5 @@
 ﻿function Get-Drivers{
+ #Gathers Kernel Driver information on the system
 if($ErrorActionPreference -ne 'silentlycontinue'){
 $ErrorActionPreference='silentlycontinue'
 }
