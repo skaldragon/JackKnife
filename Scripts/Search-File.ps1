@@ -20,6 +20,8 @@ function Search-File{
 		Used to search all of AD.
     .SWITCH Regexname
         Used to state the filename is a regexname
+    .EXAMPLE
+     Search-File -HostPath C:\users -Regexname ^`$[2-3] -LocalHost
     .SWITCH Hostlist
 		Used with HostComputers to search list of computers instead of AD.
     .SWITCH LocalHost
