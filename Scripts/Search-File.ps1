@@ -18,6 +18,8 @@ function Search-File{
 		Array to add multiple computers one by one separated by comma if you don't want to search the whole AD.
     .SWITCH All
 		Used to search all of AD.
+    .SWITCH Regexname
+        Used to state the filename is a regexname
     .SWITCH Hostlist
 		Used with HostComputers to search list of computers instead of AD.
     .SWITCH LocalHost
@@ -34,7 +36,7 @@ function Search-File{
 
 [cmdletBinding(DefaultParameterSetName="Set One")]
 param(
-[Parameter(Mandatory=$true,ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][string]$HostPath,
+[Parameter(Mandatory=$true,ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][Parameter(ParameterSetName="Set Three")][string]$HostPath,
 [Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][string]$Extension,
 [Parameter(ParameterSetName="Set One")][switch]$Include,
 [Parameter(ParameterSetName="Set One")][switch]$Exclude,
@@ -44,7 +46,8 @@ param(
 [Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")]$Hostcomputers=@(),
 [Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][switch]$All,
 [Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][switch]$HostList,
-[Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][switch]$LocalHost
+[Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][Parameter(ParameterSetName="Set Three")][switch]$LocalHost,
+[Parameter(ParameterSetName="Set Three")][string]$Regexname
 )
 
 
@@ -126,6 +129,10 @@ $length=Read-Host "Enter in a file length";Get-ChildItem "$HostPath" -Recurse -I
 if($SearchforNormal){
 echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 Get-ChildItem "$HostPath" -Name $FileName -Recurse -Force  | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
+}
+if($Regexname){
+echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
+Get-ChildItem "$HostPath" -Recurse -Force |Where-Object{$_.name -match "$Regexname"}  | Out-File -FilePath $pwd\"$Computer"_RegexNamefile.txt -Append;
 }#End IF
 }#EndLocal
 }#EndFunction
