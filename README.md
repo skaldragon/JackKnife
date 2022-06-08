@@ -35,4 +35,6 @@ JackKnife is a Network Defense Tool Repository for Powershell. It contains multi
 * Fixed Search-File to work correctly for all hosts on a domain and local hosts!
 # JackKnife Version 3.3.1
 * Added Get-Drivers for kernel Driver enumeration.
+# JackKnife Version 3.3.2
+* Added Get-BetterNetstat to allow users to get Netstat information and Process ownership without the need to be Administrator
 
