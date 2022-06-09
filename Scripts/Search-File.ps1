@@ -23,7 +23,7 @@ function Search-File{
     .EXAMPLE
      Search-File -HostPath C:\users -Regexname ^`$[2-3] -LocalHost
      .SWITCH Datesearch
-        Used to find files by timestamps of MM/DD/YYYY, used with the Date parameter
+        Used to find files by Creation timestamps of MM/DD/YYYY, used with the Date parameter
     .EXAMPLE
       Search-File -HostPath C:\users -Date 12/12/2012 -Datesearch -LocalHost
     .SWITCH Hostlist
