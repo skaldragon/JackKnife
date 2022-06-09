@@ -38,4 +38,5 @@ JackKnife is a Network Defense Tool Repository for Powershell. It contains multi
 # JackKnife Version 3.3.2
 * Updated Search-File to find regex files.
 * Added Get-BetterNetstat to allow users to get Netstat information and Process ownership without the need to be Administrator
-
+# JackKnife Version 3.3.3
+* Updated Search-File to find Creation Timestamped files.
