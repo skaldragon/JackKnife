@@ -22,6 +22,10 @@ function Search-File{
         Used to state the filename is a regexname
     .EXAMPLE
      Search-File -HostPath C:\users -Regexname ^`$[2-3] -LocalHost
+     .SWITCH Datesearch
+        Used to find files by timestamps of MM/DD/YYYY, used with the Date parameter
+    .EXAMPLE
+      Search-File -HostPath C:\users -Date 12/12/2012 -Datesearch -LocalHost
     .SWITCH Hostlist
 		Used with HostComputers to search list of computers instead of AD.
     .SWITCH LocalHost
@@ -38,7 +42,8 @@ function Search-File{
 
 [cmdletBinding(DefaultParameterSetName="Set One")]
 param(
-[Parameter(Mandatory=$true,ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][Parameter(ParameterSetName="Set Three")][string]$HostPath,
+[Parameter(Mandatory=$true,ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")]
+[Parameter(ParameterSetName="Set Three")][Parameter(ParameterSetName="Set Four")][string]$HostPath,
 [Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][string]$Extension,
 [Parameter(ParameterSetName="Set One")][switch]$Include,
 [Parameter(ParameterSetName="Set One")][switch]$Exclude,
@@ -46,10 +51,12 @@ param(
 [Parameter(ParameterSetName="Set Two")][switch]$SearchforRandom,
 [Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][switch]$SearchforNormal,
 [Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")]$Hostcomputers=@(),
-[Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][switch]$All,
-[Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][switch]$HostList,
-[Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][Parameter(ParameterSetName="Set Three")][switch]$LocalHost,
-[Parameter(ParameterSetName="Set Three")][string]$Regexname
+[Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][Parameter(ParameterSetName="Set Three")][Parameter(ParameterSetName="Set Four")][switch]$All,
+[Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][Parameter(ParameterSetName="Set Three")][Parameter(ParameterSetName="Set Four")][switch]$HostList,
+[Parameter(ParameterSetName="Set One")][Parameter(ParameterSetName="Set Two")][Parameter(ParameterSetName="Set Three")][Parameter(ParameterSetName="Set Four")][switch]$LocalHost,
+[Parameter(ParameterSetName="Set Three")][string]$Regexname,
+[Parameter(ParameterSetName="Set Four")][switch]$Datesearch,
+[Parameter(ParameterSetName="Set Four")][string]$Date
 )
 
 
@@ -77,7 +84,15 @@ if($SearchforNormal){
 Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Name $using:FileName -Recurse -Force}  | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 }
-
+if($Regexname){
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Regexfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Force |Where-Object{$_.name -match "$Using:Regexname"}}  | Out-File -FilePath $pwd\"$Computer"_RegexNamefile.txt -Append;
+}#End IF
+if($Datesearch){
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{ $time=(gci -Path "$Using:HostPath" | select * | ?{$_.CreationTime.ToShortDateString() -icontains $Using:Date})
+$time} | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+}#End IF
 Remove-PSSession *
 } #End FOREACH
 } #END SELECTED
@@ -105,6 +120,15 @@ if($SearchforNormal){
 Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Name $using:FileName -Force -Recurse}  | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 }
+if($Regexname){
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Regexfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Force |Where-Object{$_.name -match "$Using:Regexname"}}  | Out-File -FilePath $pwd\"$Computer"_RegexNamefile.txt -Append;
+}#End IF
+if($Datesearch){
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{ $time=(gci -Path "$Using:HostPath" | select * | ?{$_.CreationTime.ToShortDateString() -icontains $Using:Date})
+$time} | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+}#End IF
 Remove-PSSession * -ErrorAction SilentlyContinue
 } #END IF
 }#END FOREACH
@@ -133,8 +157,13 @@ echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Normalf
 Get-ChildItem "$HostPath" -Name $FileName -Recurse -Force  | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
 }
 if($Regexname){
-echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
+echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Regexfile.txt -Append;
 Get-ChildItem "$HostPath" -Recurse -Force |Where-Object{$_.name -match "$Regexname"}  | Out-File -FilePath $pwd\"$Computer"_RegexNamefile.txt -Append;
+}
+if($Datesearch){
+echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+$time=(gci -Path $HostPath | select * | ?{$_.CreationTime.ToShortDateString() -icontains $Date})
+$time | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
 }#End IF
 }#EndLocal
 }#EndFunction
