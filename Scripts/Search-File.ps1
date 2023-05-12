@@ -60,38 +60,47 @@ param(
 )
 
 
+Write-Host "Choose file location to save to, do not include extension" -ForegroundColor Red
+Sleep -s 5
+Add-Type -AssemblyName System.Windows.Forms
+$FileBrowser = New-Object System.Windows.Forms.SaveFileDialog -Property @{ InitialDirectory = [Environment]::GetFolderPath('Desktop') }
+$null = $FileBrowser.ShowDialog()
+$File2save=$FileBrowser.FileName
+
+
+
 if($HostList){
 foreach($Computer in $Hostcomputers){
 (Get-ADComputer $Computer).Name
 $Session=New-PSSession -ComputerName $Computer -Authentication Negotiate
 
 if($Include){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
-Invoke-Command -Session $Session-ScriptBlock{Get-ChildItem $Using:HostPath -Include "*$Using:Extension" -Recurse -Force} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Inclusionfiles.txt" -Append;
+Invoke-Command -Session $Session-ScriptBlock{Get-ChildItem $Using:HostPath -Include "*$Using:Extension" -Recurse -Force} | Out-File -FilePath $File2save"_Inclusionfiles.txt" -Append;
 }
 
 if($Exclude){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Exclude "*$Using:Extension" -Recurse -Force} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Exclusionfiles.txt" -Append;
+Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Exclude "*$Using:Extension" -Recurse -Force} | Out-File -FilePath $File2save"_Exclusionfiles.txt" -Append;
 }
 
 if($SearchforRandom){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{$length=Read-Host "Enter in a file length";Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extension | Where-Object {$_.Name -match "^[\w]{0,20}?" -and $_.Basename.Length -le $length}} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Randomfile.txt" -Append;
+Invoke-Command -Session $Session -ScriptBlock{$length=Read-Host "Enter in a file length";Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extension | Where-Object {$_.Name -match "^[\w]{0,20}?" -and $_.Basename.Length -le $length}} | Out-File -FilePath $File2save"_Randomfile.txt" -Append;
 }
 
 if($SearchforNormal){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Name $using:FileName -Recurse -Force}  | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Normalfile.txt" -Append;
+Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Name $using:FileName -Recurse -Force}  | Out-File -FilePath $File2save"_Normalfile.txt" -Append;
 }
 if($Regexname){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Regexfile.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Force |Where-Object{$_.name -match "$Using:Regexname"}}  | Out-File -FilePath $pwd\"$Computer"_RegexNamefile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Regexfile.txt" -Append;
+Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Force |Where-Object{$_.name -match "$Using:Regexname"}}  | Out-File -FilePath $File2save"_RegexNamefile.txt" -Append;
 }#End IF
 if($Datesearch){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Datefiles.txt" -Append;
 Invoke-Command -Session $Session -ScriptBlock{ $time=(gci -Path "$Using:HostPath" | select * | ?{$_.CreationTime.ToShortDateString() -icontains $Using:Date})
-$time} | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+$time} | Out-File -FilePath $File2save"_Datefiles.txt" -Append;
 }#End IF
 Remove-PSSession *
 } #End FOREACH
@@ -105,29 +114,29 @@ if(Test-Connection -ComputerName $Computer -Count 1){
 $Session=New-PSSession -ComputerName $Computer -Authentication Negotiate
 
 if($Include){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Include "*$Using:Extension" -Recurse -Force} | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Inclusionfiles.txt" -Append;
+Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Include "*$Using:Extension" -Recurse -Force} | Out-File -FilePath $File2save"_Inclusionfiles.txt" -Append;
 }
 if($Exclude){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Exclude "*$Using:Extension" -Recurse -Force} | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Exclusionfiles.txt" -Append;
+Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem $Using:HostPath -Exclude "*$Using:Extension" -Recurse -Force} | Out-File -FilePath "$File2save"_Exclusionfiles.txt -Append;
 }
 if($SearchforRandom){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Read-Host "Enter in a file length";Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extension | Where-Object {$_.Name -match "^[\w]{0,20}?" -and $_.Basename.Length -le $length}} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Randomfile.txt" -Append;
+Invoke-Command -Session $Session -ScriptBlock{Read-Host "Enter in a file length";Get-ChildItem "$Using:HostPath" -Recurse -Include *$Using:Extension | Where-Object {$_.Name -match "^[\w]{0,20}?" -and $_.Basename.Length -le $length}} | Out-File -FilePath $File2save"_Randomfile.txt" -Append;
 }
 if($SearchforNormal){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Name $using:FileName -Force -Recurse}  | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Normalfile.txt" -Append;
+Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Name $using:FileName -Force -Recurse}  | Out-File -FilePath $File2save"_Normalfile.txt" -Append;
 }
 if($Regexname){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Regexfile.txt -Append;
-Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Force |Where-Object{$_.name -match "$Using:Regexname"}}  | Out-File -FilePath $pwd\"$Computer"_RegexNamefile.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Regexfile.txt" -Append;
+Invoke-Command -Session $Session -ScriptBlock{Get-ChildItem "$Using:HostPath" -Recurse -Force |Where-Object{$_.name -match "$Using:Regexname"}}  | Out-File -FilePath $File2save"_RegexNamefile.txt" -Append;
 }#End IF
 if($Datesearch){
-Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+Invoke-Command -Session $Session -ScriptBlock{echo "-----$env:COMPUTERNAME-----"} | Out-File -FilePath $File2save"_Datefiles.txt" -Append;
 Invoke-Command -Session $Session -ScriptBlock{ $time=(gci -Path "$Using:HostPath" | select * | ?{$_.CreationTime.ToShortDateString() -icontains $Using:Date})
-$time} | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+$time} | Out-File -FilePath $File2save"_Datefiles.txt" -Append;
 }#End IF
 Remove-PSSession * -ErrorAction SilentlyContinue
 } #END IF
@@ -138,32 +147,32 @@ if($LocalHost){
 $Computer=$env:COMPUTERNAME
 
 if($Include){
-echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
-Get-ChildItem $HostPath -Include "*$Extension" -Recurse -Force | Out-File -FilePath $pwd\"$Computer"_Inclusionfiles.txt -Append;
+echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $File2save"_Inclusionfiles.txt" -Append;
+Get-ChildItem $HostPath -Include "*$Extension" -Recurse -Force | Out-File -FilePath $File2save"_Inclusionfiles.txt" -Append;
 }
 
 if($Exclude){
-echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
-Get-ChildItem $HostPath -Exclude "*$Extension" -Recurse -Force | Out-File -FilePath $pwd\"$Computer"_Exclusionfiles.txt -Append;
+echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $File2save"_Exclusionfiles.txt" -Append;
+Get-ChildItem $HostPath -Exclude "*$Extension" -Recurse -Force | Out-File -FilePath $File2save"_Exclusionfiles.txt" -Append;
 }
 
 if($SearchforRandom){
-echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
-$length=Read-Host "Enter in a file length";Get-ChildItem "$HostPath" -Recurse -Include *$Extension | Where-Object {$_.Name -match "^[\w]{0,20}?" -and $_.Basename.Length -le $length} | Out-File -FilePath $pwd\"$Computer"_Randomfile.txt -Append;
+echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $File2save"_Randomfile.txt" -Append;
+$length=Read-Host "Enter in a file length";Get-ChildItem "$HostPath" -Recurse -Include *$Extension | Where-Object {$_.Name -match "^[\w]{0,20}?" -and $_.Basename.Length -le $length} | Out-File -FilePath $File2save"_Randomfile.txt" -Append;
 }
 
 if($SearchforNormal){
-echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
-Get-ChildItem "$HostPath" -Name $FileName -Recurse -Force  | Out-File -FilePath $pwd\"$Computer"_Normalfile.txt -Append;
+echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $File2save"_Normalfile.txt" -Append;
+Get-ChildItem "$HostPath" -Name $FileName -Recurse -Force  | Out-File -FilePath $File2save"_Normalfile.txt" -Append;
 }
 if($Regexname){
-echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Regexfile.txt -Append;
-Get-ChildItem "$HostPath" -Recurse -Force |Where-Object{$_.name -match "$Regexname"}  | Out-File -FilePath $pwd\"$Computer"_RegexNamefile.txt -Append;
+echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $File2save"_Regexfile.txt" -Append;
+Get-ChildItem "$HostPath" -Recurse -Force |Where-Object{$_.name -match "$Regexname"}  | Out-File -FilePath $File2save"_RegexNamefile.txt" -Append;
 }
 if($Datesearch){
-echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+echo "-----$env:COMPUTERNAME-----" | Out-File -FilePath $File2save"_Datefiles.txt" -Append;
 $time=(gci -Path $HostPath | select * | ?{$_.CreationTime.ToShortDateString() -icontains $Date})
-$time | Out-File -FilePath $pwd\"$Computer"_Datefiles.txt -Append;
+$time | Out-File -FilePath $File2save"_Datefiles.txt" -Append;
 }#End IF
 }#EndLocal
 }#EndFunction
