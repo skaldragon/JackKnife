@@ -26,5 +26,5 @@ State=$item.state | ?{$_.state -ne "Bound"}
 }
 $TCPARRAY.Add(($TCPFields)) | Out-Null
 }
-$TCPARRAY | Format-Table -AutoSize
+$TCPARRAY
 }
